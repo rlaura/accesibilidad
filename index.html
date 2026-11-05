@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recursos digitales e inclusión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf7f2; --surface:#ffffff; --ink:#1c2230; --muted:#4a5263;
+  --accent:#0e6b6b; --accent-ink:#ffffff; --accent-soft:#dcefed;
+  --warm:#b4441a; --warm-soft:#fbe6dc; --line:#e4ddd2; --focus:#b4441a;
+  --body:"Source Sans 3", system-ui, sans-serif;
+  --head:"Bricolage Grotesque", "Source Sans 3", system-ui, sans-serif;
+  --scale:1; --track:0; --lh:1.6;
+}
+html[data-contraste="si"]{
+  --bg:#000; --surface:#000; --ink:#fff; --muted:#fff;
+  --accent:#ffd60a; --accent-ink:#000; --accent-soft:#1a1a1a;
+  --warm:#ffd60a; --warm-soft:#1a1a1a; --line:#fff; --focus:#ffd60a;
+}
+html[data-letra="legible"]{
+  --body:"Atkinson Hyperlegible", system-ui, sans-serif;
+  --head:"Atkinson Hyperlegible", system-ui, sans-serif;
+  --track:.03em; --lh:1.8;
+}
+html{font-size:calc(var(--scale) * 100%); scroll-behavior:smooth; scroll-padding-top:7.5rem}
+html[data-movimiento="no"]{scroll-behavior:auto}
+html[data-movimiento="no"] *{transition:none !important; animation:none !important}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none !important; animation:none !important} }
+*{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--body); font-size:1.125rem; line-height:var(--lh); letter-spacing:var(--track)}
+h1,h2,h3{font-family:var(--head); line-height:1.15; letter-spacing:-.01em; margin:0 0 .5em}
+html[data-letra="legible"] h1, html[data-letra="legible"] h2, html[data-letra="legible"] h3{letter-spacing:0}
+h2{font-size:clamp(1.9rem, 4vw, 2.6rem); font-weight:800}
+h3{font-size:1.35rem; font-weight:700}
+p{margin:0 0 1em; max-width:68ch}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--focus); outline-offset:3px; border-radius:4px}
+.skip{position:absolute; left:1rem; top:-4rem; background:var(--ink); color:var(--bg); padding:.6rem 1rem; border-radius:8px; z-index:100; text-decoration:none}
+.skip:focus{top:1rem}
+.wrap{max-width:1100px; margin:0 auto; padding:0 1.25rem}
+.sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+
+/* ---------- header ---------- */
+header.top{position:sticky; top:0; z-index:50; background:color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+html[data-contraste="si"] header.top{background:#000}
+.top-row{display:flex; align-items:center; gap:1rem; padding:.6rem 0; flex-wrap:wrap}
+.brand{font-family:var(--head); font-weight:800; font-size:1.05rem; text-decoration:none; color:var(--ink); margin-right:auto; display:flex; gap:.5rem; align-items:center}
+.brand-dot{width:.85rem; height:.85rem; border-radius:50%; background:var(--accent); display:inline-block}
+.tools{display:flex; gap:.4rem; flex-wrap:wrap; align-items:center}
+@media (max-width:560px){ .tools-label{display:none} }
+.tools-label{font-size:.85rem; color:var(--muted); font-weight:600; margin-right:.2rem}
+.tbtn{font:inherit; font-size:.9rem; font-weight:600; border:1.5px solid var(--line); background:var(--surface); color:var(--ink); border-radius:999px; padding:.35rem .8rem; cursor:pointer; min-height:2.25rem; display:inline-flex; align-items:center; gap:.35rem}
+.tbtn:hover{border-color:var(--accent)}
+.tbtn[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+nav.secciones{border-top:1px solid var(--line)}
+nav.secciones ul{list-style:none; margin:0; padding:.35rem 0; display:flex; gap:.25rem; overflow-x:auto}
+nav.secciones a{display:block; padding:.35rem .75rem; border-radius:8px; text-decoration:none; color:var(--muted); font-weight:600; font-size:.95rem; white-space:nowrap}
+nav.secciones a:hover, nav.secciones a[aria-current="true"]{background:var(--accent-soft); color:var(--ink)}
+
+/* ---------- sections ---------- */
+section{padding:4.5rem 0; border-bottom:1px solid var(--line)}
+.kicker{display:inline-block; font-weight:700; font-size:.85rem; letter-spacing:.08em; text-transform:uppercase; color:var(--warm); margin-bottom:.6rem}
+.sec-head{display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; flex-wrap:wrap}
+.listen{font:inherit; font-size:.9rem; font-weight:600; border:1.5px solid var(--accent); color:var(--accent); background:transparent; border-radius:999px; padding:.4rem .9rem; cursor:pointer; display:inline-flex; gap:.4rem; align-items:center; min-height:2.25rem}
+.listen[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink)}
+.lead{font-size:1.3rem; color:var(--muted)}
+
+/* hero */
+.hero{padding:5rem 0 4rem}
+.hero h1{font-size:clamp(2.2rem, 5.5vw, 3.9rem); font-weight:800; max-width:20ch; margin-bottom:1.25rem}
+.hero h1 em{font-style:normal; color:var(--accent)}
+.hero .lead{max-width:56ch}
+.meta{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; margin-top:2.5rem}
+.meta div{border-left:3px solid var(--accent); padding-left:.9rem}
+.meta dt{font-size:.85rem; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.06em}
+.meta dd{margin:0; font-weight:600}
+.aviso{margin-top:2.5rem; background:var(--accent-soft); border-radius:16px; padding:1.25rem 1.4rem; display:flex; gap:1rem; align-items:flex-start}
+.aviso p{margin:0}
+.aviso svg{flex:none; margin-top:.2rem}
+
+/* cards */
+.grid{display:grid; gap:1rem; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr))}
+.card{background:var(--surface); border:1.5px solid var(--line); border-radius:16px; padding:1.4rem}
+.card p:last-child{margin-bottom:0}
+.card h3{font-size:1.2rem}
+.barrera{display:flex; gap:.8rem; align-items:flex-start}
+.barrera .ico{flex:none; width:2.5rem; height:2.5rem; border-radius:12px; background:var(--warm-soft); color:var(--warm); display:grid; place-items:center; font-weight:800}
+.pregunta{margin:2.5rem 0; padding:1.6rem 1.8rem; border-radius:16px; background:var(--ink); color:var(--bg)}
+html[data-contraste="si"] .pregunta{background:#000; color:#fff; border:2px solid #fff}
+.pregunta p{font-family:var(--head); font-size:clamp(1.25rem, 2.6vw, 1.6rem); font-weight:700; line-height:1.3; margin:0; max-width:none}
+.pregunta .kicker{color:inherit; opacity:.8}
+
+/* stats */
+.stats{display:grid; gap:1rem; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); margin:1.5rem 0}
+.stat{background:var(--surface); border:1.5px solid var(--line); border-radius:16px; padding:1.25rem}
+.stat b{display:block; font-family:var(--head); font-size:2.6rem; line-height:1; color:var(--accent); font-weight:800; margin-bottom:.4rem}
+.stat.warm b{color:var(--warm)}
+.stat span{color:var(--muted); font-size:1rem; display:block; line-height:1.4}
+
+/* findings acts */
+.acto{margin-top:3.5rem}
+.acto-num{font-family:var(--head); font-weight:800; color:var(--accent); font-size:1rem}
+.acto h3{font-size:clamp(1.4rem, 3vw, 1.9rem)}
+.dos{display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); align-items:start}
+figure{margin:0}
+figcaption{font-weight:700; margin-bottom:.9rem}
+figcaption small{display:block; font-weight:400; color:var(--muted); font-size:.95rem}
+.bars{list-style:none; margin:0; padding:0; display:grid; gap:.7rem}
+.bars li{display:grid; grid-template-columns:minmax(9rem, 13rem) 1fr 3.8rem; gap:.75rem; align-items:center}
+.bars .lbl{font-size:1rem; line-height:1.25}
+.bars .track{height:1.1rem; background:var(--accent-soft); border-radius:999px; overflow:hidden}
+html[data-contraste="si"] .bars .track{border:1px solid #fff}
+.bars .fill{display:block; height:100%; width:calc(var(--v) * 1%); background:var(--accent); border-radius:999px}
+.bars .alt .fill{background:var(--warm)}
+.bars .val{font-weight:700; text-align:right; font-variant-numeric:tabular-nums}
+@media (max-width:560px){ .bars li{grid-template-columns:1fr 3.6rem} .bars .lbl{grid-column:1 / -1} }
+.nota{font-size:.95rem; color:var(--muted)}
+.destacado{border-left:4px solid var(--warm); background:var(--warm-soft); padding:1rem 1.25rem; border-radius:0 12px 12px 0; margin-top:1.5rem}
+.destacado p{margin:0}
+
+/* ---------- simulator ---------- */
+.sim{display:grid; gap:1.5rem; grid-template-columns:minmax(0, 1.35fr) minmax(0, 1fr); margin-top:2rem}
+@media (max-width:880px){ .sim{grid-template-columns:1fr} }
+.ctrl-group{margin-bottom:1.25rem}
+.ctrl-group > span{display:block; font-weight:700; margin-bottom:.5rem}
+.seg{display:flex; flex-wrap:wrap; gap:.4rem}
+.seg button{font:inherit; font-size:.95rem; font-weight:600; border:1.5px solid var(--line); background:var(--surface); color:var(--ink); border-radius:10px; padding:.5rem .85rem; cursor:pointer; min-height:2.5rem}
+.seg button[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+html[data-contraste="si"] .seg button[aria-pressed="true"]{background:#ffd60a; color:#000; border-color:#ffd60a}
+.seg.version button[aria-pressed="true"][data-v="barreras"]{background:var(--warm); border-color:var(--warm); color:#fff}
+.seg.version button[aria-pressed="true"][data-v="accesible"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+
+.visor{position:relative; border-radius:18px; border:1.5px solid var(--line); background:#e9e4da; padding:1rem; overflow:hidden}
+html[data-contraste="si"] .visor{background:#111}
+.visor-bar{display:flex; justify-content:space-between; font-size:.85rem; font-weight:700; color:#4a5263; margin-bottom:.6rem}
+html[data-contraste="si"] .visor-bar{color:#fff}
+.lente-tag{background:#1c2230; color:#fff; padding:.15rem .6rem; border-radius:999px}
+/* material keeps its own colors on purpose: it is the "example resource" */
+.material{background:#fff; color:#1c2230; border-radius:10px; padding:1.25rem; min-height:26rem; transition:filter .25s; font-family:"Source Sans 3", system-ui, sans-serif; letter-spacing:0; line-height:1.5}
+.visor[data-lente="baja"] .material{filter:blur(2.2px) contrast(.85)}
+.visor[data-lente="daltonismo"] .material{filter:url(#deuteranopia)}
+.visor[data-lente="lector"] .material{filter:grayscale(1) blur(5px); opacity:.35}
+.mat{display:none}
+.visor[data-version="barreras"] .mat.barreras, .visor[data-version="accesible"] .mat.accesible{display:block}
+
+/* barrier version styling */
+.mat.barreras .b-tit{font-size:.8rem; color:#b9b9b9; margin:0 0 .4rem; font-weight:400}
+.mat.barreras .b-txt{font-size:.78rem; color:#a3a3a3; line-height:1.3; text-align:justify; margin:0 0 .8rem}
+.mat.barreras .b-row{display:flex; gap:.8rem; flex-wrap:wrap}
+.mat.barreras a{color:#9fb8d6; font-size:.78rem}
+.b-chart{flex:1 1 180px; border:1px solid #eee; padding:.6rem; display:flex; gap:.6rem; align-items:flex-end; height:9rem}
+.b-chart div{flex:1; border-radius:2px 2px 0 0}
+.b-legend{font-size:.7rem; color:#aaa; display:flex; gap:.8rem; margin-top:.3rem}
+.b-legend i{display:inline-block; width:.6rem; height:.6rem; margin-right:.25rem; vertical-align:middle}
+.b-drag{font-size:.75rem; color:#aaa; border:1px dashed #ddd; padding:.4rem .6rem; margin-top:.6rem}
+
+/* accessible version styling */
+.mat.accesible h4{font-family:"Bricolage Grotesque", sans-serif; font-size:1.45rem; margin:0 0 .6rem; color:#111}
+.mat.accesible ol{margin:0 0 1rem; padding-left:1.4rem; font-size:1.05rem; color:#111}
+.mat.accesible li{margin-bottom:.35rem}
+.a-row{display:flex; gap:1rem; flex-wrap:wrap}
+.a-chart{flex:1 1 200px}
+.a-chart .ab{display:grid; grid-template-columns:5.5rem 1fr 2.6rem; gap:.4rem; align-items:center; font-size:.95rem; margin-bottom:.35rem; color:#111}
+.a-chart .ab span.t{height:1.2rem; border:1.5px solid #111; border-radius:3px}
+.a-chart .nr{background:#2b2b2b}
+.a-chart .r{background:repeating-linear-gradient(45deg, #fff 0 4px, #111 4px 6px)}
+.a-chart .leg{font-size:.85rem; color:#333; margin-top:.3rem}
+
+.video{flex:1 1 200px; border-radius:8px; background:#1c2230; color:#fff; min-height:9rem; position:relative; display:flex; flex-direction:column; justify-content:space-between; padding:.6rem}
+.video .play{width:2.6rem; height:2.6rem; border-radius:50%; background:rgba(255,255,255,.18); display:grid; place-items:center; margin:auto}
+.video .vt{font-size:.75rem; opacity:.85}
+.video .audio{font-size:.75rem; background:rgba(255,255,255,.12); border-radius:6px; padding:.25rem .45rem; align-self:flex-start}
+.video .cc{font-size:.9rem; background:#000; color:#fff; padding:.2rem .5rem; border-radius:4px; align-self:center; text-align:center}
+.visor[data-lente="sinaudio"] .video .audio{display:none}
+.video .muted-ico{display:none; position:absolute; top:.5rem; right:.5rem; font-size:.75rem; background:#b4441a; padding:.15rem .45rem; border-radius:4px}
+.visor[data-lente="sinaudio"] .video .muted-ico{display:block}
+
+.lector-panel{display:none; position:absolute; inset:3rem 1rem 1rem; background:#0d1117; color:#e6edf3; border-radius:12px; padding:1rem 1.2rem; font-family:ui-monospace, "SFMono-Regular", Menlo, monospace; font-size:.92rem; line-height:1.55; overflow:auto; box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.visor[data-lente="lector"] .lector-panel{display:block}
+.lector-panel .lp-h{color:#7ee0d6; font-weight:700; margin-bottom:.5rem; font-family:"Source Sans 3", sans-serif; font-size:.95rem}
+.lector-panel ol{margin:0; padding-left:1.6rem}
+.lector-panel li{margin-bottom:.3rem}
+.lector-panel .bad{color:#ffb4a1}
+.lector-panel .ok{color:#b6f0c2}
+.lector-panel [data-for]{display:none}
+.visor[data-version="barreras"] .lector-panel [data-for="barreras"], .visor[data-version="accesible"] .lector-panel [data-for="accesible"]{display:block}
+
+.explica{background:var(--surface); border:1.5px solid var(--line); border-radius:18px; padding:1.4rem}
+.explica h3{font-size:1.25rem}
+.chips{display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.8rem}
+.chip{font-size:.85rem; font-weight:700; padding:.2rem .65rem; border-radius:999px; background:var(--accent-soft); color:var(--ink)}
+.explica .estado{font-weight:700; display:inline-flex; align-items:center; gap:.4rem; margin-bottom:.6rem; padding:.2rem .7rem; border-radius:999px; font-size:.9rem}
+.estado.mal{background:var(--warm-soft); color:var(--warm)}
+.estado.bien{background:var(--accent-soft); color:var(--accent)}
+
+/* ---------- checklist ---------- */
+.check-layout{display:grid; grid-template-columns:minmax(0, 1.5fr) minmax(0, 1fr); gap:1.5rem; margin-top:2rem; align-items:start}
+@media (max-width:880px){ .check-layout{grid-template-columns:1fr} }
+.recurso-nombre{display:flex; flex-direction:column; gap:.35rem; margin-bottom:1.25rem}
+.recurso-nombre label{font-weight:700}
+.recurso-nombre input{font:inherit; padding:.65rem .85rem; border-radius:10px; border:1.5px solid var(--line); background:var(--surface); color:var(--ink)}
+fieldset.item{border:1.5px solid var(--line); border-radius:14px; padding:1rem 1.15rem 1.1rem; margin:0 0 .8rem; background:var(--surface)}
+fieldset.item legend{padding:0; float:left; width:100%; margin-bottom:.6rem}
+fieldset.item legend .dim{display:block; font-size:.8rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; color:var(--warm)}
+fieldset.item legend .q{font-weight:600; font-size:1.08rem}
+.opts{clear:both; display:flex; gap:.5rem; flex-wrap:wrap}
+.opts label{position:relative; cursor:pointer}
+.opts input{position:absolute; opacity:0; width:1px; height:1px}
+.opts span{display:inline-flex; align-items:center; gap:.35rem; padding:.45rem .95rem; border-radius:10px; border:1.5px solid var(--line); font-weight:600; min-height:2.5rem}
+.opts input:focus-visible + span{outline:3px solid var(--focus); outline-offset:2px}
+.opts input:checked + span{color:#fff; border-color:transparent}
+.opts input[value="2"]:checked + span{background:var(--accent); color:var(--accent-ink)}
+.opts input[value="1"]:checked + span{background:#8a6a12; color:#fff}
+.opts input[value="0"]:checked + span{background:var(--warm); color:#fff}
+html[data-contraste="si"] .opts input:checked + span{background:#ffd60a !important; color:#000 !important}
+.resultado{position:sticky; top:8rem; background:var(--surface); border:1.5px solid var(--line); border-radius:18px; padding:1.4rem}
+.progreso{height:.6rem; background:var(--accent-soft); border-radius:999px; overflow:hidden; margin:.4rem 0 1rem}
+.progreso span{display:block; height:100%; background:var(--accent); width:0; transition:width .3s}
+.puntaje{font-family:var(--head); font-size:3rem; font-weight:800; line-height:1; color:var(--accent)}
+.nivel{font-weight:700; font-size:1.15rem; margin:.4rem 0 1rem}
+.revisar{list-style:none; margin:0 0 1rem; padding:0; display:grid; gap:.6rem}
+.revisar li{border-left:4px solid var(--warm); padding:.3rem 0 .3rem .8rem; font-size:1rem; line-height:1.45}
+.revisar li.parcial{border-color:#8a6a12}
+.revisar b{display:block}
+.acciones{display:flex; gap:.5rem; flex-wrap:wrap}
+.btn{font:inherit; font-weight:700; border-radius:10px; padding:.6rem 1rem; cursor:pointer; border:1.5px solid var(--accent); min-height:2.6rem}
+.btn.pri{background:var(--accent); color:var(--accent-ink)}
+.btn.sec{background:transparent; color:var(--accent)}
+.copiado{font-size:.95rem; color:var(--accent); font-weight:700; margin-top:.6rem; min-height:1.4em}
+#copia-fallback{width:100%; min-height:8rem; margin-top:.6rem; font:inherit; font-size:.9rem; display:none}
+
+/* conclusions */
+.dim-num{font-family:var(--head); font-weight:800; font-size:2.2rem; color:var(--accent); line-height:1}
+blockquote.final{margin:3rem 0 0; padding:2rem; border-radius:18px; background:var(--accent); color:var(--accent-ink)}
+blockquote.final p{font-family:var(--head); font-size:clamp(1.35rem, 3vw, 1.9rem); font-weight:700; line-height:1.3; margin:0; max-width:none}
+
+footer{padding:3rem 0 4rem; color:var(--muted)}
+footer h2{font-size:1.4rem; color:var(--ink)}
+.como{columns:2 260px; padding-left:1.2rem}
+.como li{margin-bottom:.4rem; break-inside:avoid}
+</style>
+</head>
+<body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<!-- Filtro de daltonismo (deuteranopía) para el simulador -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="deuteranopia">
+    <feColorMatrix type="matrix" values="0.367 0.861 -0.228 0 0  0.280 0.673 0.047 0 0  -0.012 0.043 0.969 0 0  0 0 0 1 0"/>
+  </filter>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <a class="brand" href="#inicio"><span class="brand-dot" aria-hidden="true"></span>Recursos digitales e inclusión</a>
+      <div class="tools" role="group" aria-label="Opciones de accesibilidad de esta página">
+        <span class="tools-label" aria-hidden="true">Ajustes:</span>
+        <button class="tbtn" id="menos" type="button" aria-label="Achicar el texto">A−</button>
+        <button class="tbtn" id="mas" type="button" aria-label="Agrandar el texto">A+</button>
+        <button class="tbtn" id="t-contraste" type="button" aria-pressed="false"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg> Contraste</button>
+        <button class="tbtn" id="t-letra" type="button" aria-pressed="false">Aa Letra legible</button>
+        <button class="tbtn" id="t-mov" type="button" aria-pressed="false">Sin animaciones</button>
+      </div>
+    </div>
+  </div>
+  <nav class="secciones" aria-label="Secciones">
+    <div class="wrap">
+      <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#problema">El problema</a></li>
+        <li><a href="#metodo">Cómo lo investigamos</a></li>
+        <li><a href="#hallazgos">Qué encontramos</a></li>
+        <li><a href="#simulador">Simulador de barreras</a></li>
+        <li><a href="#checklist">Checklist</a></li>
+        <li><a href="#conclusiones">Conclusiones</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main id="contenido">
+
+<!-- ================= INICIO ================= -->
+<section class="hero" id="inicio" aria-labelledby="t-inicio">
+  <div class="wrap">
+    <span class="kicker">UNLa · Seminario Tecnologías de Apoyo para la Inclusión</span>
+    <h1 id="t-inicio">La importancia del uso de recursos digitales en la educación desde una <em>perspectiva inclusiva</em></h1>
+    <p class="lead">Un recurso digital puede abrir el acceso al conocimiento… o sumar una barrera nueva. Investigamos qué criterios de accesibilidad tienen en cuenta los docentes y qué condiciones influyen en sus prácticas.</p>
+
+    <dl class="meta">
+      <div><dt>Integrantes</dt><dd>Betiana Aravena · Gabriela Rivero · Laura Rivero · Maximiliano Velarde</dd></div>
+      <div><dt>Docente</dt><dd>Adriana Gimenez</dd></div>
+      <div><dt>Carrera</dt><dd>Lic. en Tecnologías Digitales para la Educación</dd></div>
+      <div><dt>Cursada</dt><dd>2.º cuatrimestre 2026</dd></div>
+    </dl>
+
+    <div class="aviso">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="4.5" r="2"/><path d="M5 9l7 1.5L19 9M12 10.5V15m0 0l-3.5 6M12 15l3.5 6"/></svg>
+      <p><strong>Esta página intenta aplicar lo que propone.</strong> Arriba podés agrandar la letra, activar alto contraste o una tipografía más legible. Cada sección tiene un botón para escucharla. Todo funciona con teclado y los gráficos muestran sus números como texto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROBLEMA ================= -->
+<section id="problema" aria-labelledby="t-problema">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="kicker">01 · El problema</span>
+      <h2 id="t-problema">Que sea digital no significa que sea accesible</h2></div>
+      <button class="listen" type="button" data-noread>🔊 Escuchar sección</button>
+    </div>
+    <p class="lead">Las tecnologías pueden funcionar como <strong>“rampas digitales”</strong>: dar distintas formas de acceder a un contenido con texto, imagen, audio o subtítulos. Pero pasar un material de papel a pantalla no lo vuelve inclusivo.</p>
+
+    <div class="grid" style="margin-top:1.5rem">
+      <div class="card barrera"><span class="ico" aria-hidden="true">CC</span><div><h3>Un video sin subtítulos</h3><p>Deja afuera a quien no puede escuchar, o a quien está en un aula ruidosa.</p></div></div>
+      <div class="card barrera"><span class="ico" aria-hidden="true">Aa</span><div><h3>Una presentación poco legible</h3><p>Letra chica, poco contraste y mucho texto por diapositiva.</p></div></div>
+      <div class="card barrera"><span class="ico" aria-hidden="true">PDF</span><div><h3>Un documento escaneado</h3><p>No se puede ampliar ni leer con un lector de pantalla.</p></div></div>
+    </div>
+
+    <div class="pregunta">
+      <span class="kicker">Pregunta de investigación</span>
+      <p>¿Qué criterios de accesibilidad consideran los docentes al diseñar y utilizar recursos digitales educativos, y qué conocimientos, dificultades y condiciones de acompañamiento influyen en estas prácticas?</p>
+    </div>
+
+    <h3>Desde dónde lo miramos</h3>
+    <div class="grid">
+      <div class="card"><h3>Modelo social de la discapacidad</h3><p>La mirada se corre del diagnóstico a las <strong>barreras del entorno</strong> y a los apoyos que las reducen.</p></div>
+      <div class="card"><h3>Accesibilidad desde el diseño</h3><p>No es un arreglo posterior “cuando aparece un caso”, sino un criterio presente <strong>desde el comienzo</strong>.</p></div>
+      <div class="card"><h3>Diseño Universal para el Aprendizaje</h3><p>Ofrecer <strong>múltiples formas</strong> de compromiso, representación, acción y expresión, sin acumular formatos porque sí.</p></div>
+      <div class="card"><h3>Modelo TPACK</h3><p>Integrar tecnología exige articular contenido, pedagogía y tecnología. A eso hay que sumarle la accesibilidad.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MÉTODO ================= -->
+<section id="metodo" aria-labelledby="t-metodo">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="kicker">02 · Cómo lo investigamos</span>
+      <h2 id="t-metodo">Un cuestionario a docentes de secundaria</h2></div>
+      <button class="listen" type="button" data-noread>🔊 Escuchar sección</button>
+    </div>
+    <p>Enfoque mixto, exploratorio-descriptivo, con un cuestionario de preguntas cerradas y abiertas. Algunos docentes respondieron por más de una escuela, por eso distinguimos entre respuestas por docente y respuestas por institución.</p>
+    <div class="stats">
+      <div class="stat"><b>50</b><span>docentes participantes</span></div>
+      <div class="stat"><b>84</b><span>respuestas institucionales</span></div>
+      <div class="stat"><b>2</b><span>jurisdicciones: CABA y Provincia de Buenos Aires</span></div>
+      <div class="stat"><b>Técnicas y medias</b><span>de gestión pública, con orientaciones en Informática, Programación, Computación, Administración y Economía</span></div>
+    </div>
+    <p class="nota">Muestra no probabilística e intencional. Incluimos docentes de las materias de la orientación y de otras áreas.</p>
+  </div>
+</section>
+
+<!-- ================= HALLAZGOS ================= -->
+<section id="hallazgos" aria-labelledby="t-hallazgos">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="kicker">03 · Qué encontramos</span>
+      <h2 id="t-hallazgos">La tecnología ya está en el aula. La accesibilidad, todavía no.</h2></div>
+      <button class="listen" type="button" data-noread>🔊 Escuchar sección</button>
+    </div>
+
+    <!-- Acto 1 -->
+    <div class="acto">
+      <span class="acto-num">Primero</span>
+      <h3>Los recursos digitales son parte de la práctica cotidiana</h3>
+      <div class="dos">
+        <figure>
+          <figcaption>Recursos que usan habitualmente <small>Porcentaje sobre 84 respuestas. Se podía elegir más de uno.</small></figcaption>
+          <ul class="bars">
+            <li><span class="lbl">Presentaciones</span><span class="track" aria-hidden="true"><span class="fill" style="--v:81"></span></span><span class="val">81%</span></li>
+            <li><span class="lbl">Aulas virtuales y plataformas</span><span class="track" aria-hidden="true"><span class="fill" style="--v:67.9"></span></span><span class="val">67,9%</span></li>
+            <li><span class="lbl">Inteligencia artificial</span><span class="track" aria-hidden="true"><span class="fill" style="--v:63.1"></span></span><span class="val">63,1%</span></li>
+            <li><span class="lbl">Recursos interactivos</span><span class="track" aria-hidden="true"><span class="fill" style="--v:52.4"></span></span><span class="val">52,4%</span></li>
+            <li><span class="lbl">Documentos digitales o PDF</span><span class="track" aria-hidden="true"><span class="fill" style="--v:51.2"></span></span><span class="val">51,2%</span></li>
+          </ul>
+        </figure>
+        <div>
+          <p>Además, <strong>todas</strong> las respuestas indicaron que usan recursos digitales para proponer actividades prácticas. También los usan para comunicar consignas (70,2%) y para facilitar la comprensión con distintas representaciones (69%).</p>
+          <p>El problema no es la falta de tecnología. Que un recurso tenga una finalidad pedagógica variada no significa que haya sido diseñado con criterios de accesibilidad.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acto 2 -->
+    <div class="acto">
+      <span class="acto-num">Segundo</span>
+      <h3>Saber usar una herramienta no es lo mismo que saber hacerla accesible</h3>
+      <div class="dos">
+        <figure>
+          <figcaption>Docentes que calificaron como <em>altos</em> sus conocimientos sobre… <small>Autoevaluación de 50 docentes.</small></figcaption>
+          <ul class="bars">
+            <li><span class="lbl">Uso general de herramientas digitales</span><span class="track" aria-hidden="true"><span class="fill" style="--v:46"></span></span><span class="val">46%</span></li>
+            <li><span class="lbl">Uso pedagógico de recursos digitales</span><span class="track" aria-hidden="true"><span class="fill" style="--v:44"></span></span><span class="val">44%</span></li>
+            <li class="alt"><span class="lbl">Criterios de accesibilidad digital</span><span class="track" aria-hidden="true"><span class="fill" style="--v:14"></span></span><span class="val">14%</span></li>
+            <li class="alt"><span class="lbl">Tecnologías de apoyo</span><span class="track" aria-hidden="true"><span class="fill" style="--v:0"></span></span><span class="val">0%</span></li>
+          </ul>
+          <p class="nota" style="margin-top:.8rem">El 54% calificó como <strong>bajos</strong> sus conocimientos sobre accesibilidad, y el 82% hizo lo mismo con las tecnologías de apoyo.</p>
+        </figure>
+        <div>
+          <div class="stats" style="margin-top:0">
+            <div class="stat"><b>82%</b><span>hizo capacitaciones sobre tecnología para la enseñanza…</span></div>
+            <div class="stat warm"><b>29,3%</b><span>…pero solo en esa proporción se trabajaron criterios de materiales accesibles</span></div>
+          </div>
+          <div class="stats">
+            <div class="stat warm"><b>20,2%</b><span>de las respuestas dice no saber exactamente qué criterios considerar</span></div>
+            <div class="stat warm"><b>53,6%</b><span>considera la accesibilidad solo “raramente” o “a veces”</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dos" style="margin-top:2rem">
+        <figure>
+          <figcaption>Criterios de accesibilidad que dicen tener en cuenta <small>Porcentaje sobre 84 respuestas.</small></figcaption>
+          <ul class="bars">
+            <li><span class="lbl">Tamaño y legibilidad del texto</span><span class="track" aria-hidden="true"><span class="fill" style="--v:78.6"></span></span><span class="val">78,6%</span></li>
+            <li><span class="lbl">Lenguaje claro y consignas comprensibles</span><span class="track" aria-hidden="true"><span class="fill" style="--v:73.8"></span></span><span class="val">73,8%</span></li>
+            <li><span class="lbl">Organización clara de la información</span><span class="track" aria-hidden="true"><span class="fill" style="--v:48.8"></span></span><span class="val">48,8%</span></li>
+            <li class="alt"><span class="lbl">Transcripción de audiovisuales</span><span class="track" aria-hidden="true"><span class="fill" style="--v:27.4"></span></span><span class="val">27,4%</span></li>
+            <li class="alt"><span class="lbl">Títulos y estructura del documento</span><span class="track" aria-hidden="true"><span class="fill" style="--v:23.8"></span></span><span class="val">23,8%</span></li>
+            <li class="alt"><span class="lbl">Distintas formas de presentar la información</span><span class="track" aria-hidden="true"><span class="fill" style="--v:22.6"></span></span><span class="val">22,6%</span></li>
+            <li class="alt"><span class="lbl">No conoce criterios específicos</span><span class="track" aria-hidden="true"><span class="fill" style="--v:31"></span></span><span class="val">31%</span></li>
+          </ul>
+        </figure>
+        <div>
+          <p>Lo más presente es lo <strong>visible e intuitivo</strong>: letra grande y lenguaje claro. Lo que requiere un conocimiento más específico, como transcribir videos, estructurar un documento con títulos u ofrecer varias formas de representación, aparece mucho menos.</p>
+          <div class="destacado">
+            <p><strong>Dato llamativo:</strong> entre los docentes de Informática, Programación o Computación, el 46,2% dice no conocer criterios específicos de accesibilidad, frente al 28,2% de otras áreas. La formación tecnológica no equivale a formación en accesibilidad.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acto 3 -->
+    <div class="acto">
+      <span class="acto-num">Tercero</span>
+      <h3>Las barreras existen, y faltan tiempo y acompañamiento para resolverlas</h3>
+      <div class="dos">
+        <figure>
+          <figcaption>Barreras que encontraron en los recursos digitales <small>Porcentaje sobre 84 respuestas.</small></figcaption>
+          <ul class="bars">
+            <li class="alt"><span class="lbl">Textos difíciles de leer o ver</span><span class="track" aria-hidden="true"><span class="fill" style="--v:70.2"></span></span><span class="val">70,2%</span></li>
+            <li class="alt"><span class="lbl">Demasiada información en pantalla</span><span class="track" aria-hidden="true"><span class="fill" style="--v:56"></span></span><span class="val">56%</span></li>
+            <li class="alt"><span class="lbl">Problemas de conectividad</span><span class="track" aria-hidden="true"><span class="fill" style="--v:56"></span></span><span class="val">56%</span></li>
+            <li class="alt"><span class="lbl">Una única forma de interactuar</span><span class="track" aria-hidden="true"><span class="fill" style="--v:32.1"></span></span><span class="val">32,1%</span></li>
+            <li class="alt"><span class="lbl">No saben cómo identificar una barrera</span><span class="track" aria-hidden="true"><span class="fill" style="--v:25"></span></span><span class="val">25%</span></li>
+            <li class="alt"><span class="lbl">Dificultades para navegar</span><span class="track" aria-hidden="true"><span class="fill" style="--v:23.8"></span></span><span class="val">23,8%</span></li>
+            <li class="alt"><span class="lbl">Imágenes sin descripción</span><span class="track" aria-hidden="true"><span class="fill" style="--v:22.6"></span></span><span class="val">22,6%</span></li>
+          </ul>
+        </figure>
+        <div>
+          <div class="stats" style="margin-top:0">
+            <div class="stat warm"><b>55,9%</b><span>nunca o raramente tiene tiempo para probar y revisar un recurso antes de usarlo</span></div>
+            <div class="stat warm"><b>84,5%</b><span>no identifica un referente de accesibilidad disponible al que consultar</span></div>
+          </div>
+          <p>Ante un problema técnico, los docentes recurren a un referente tecnológico o a un colega. Ante una duda de accesibilidad, lo más común es <strong>buscar tutoriales por su cuenta</strong>. En 17 respuestas directamente no tienen a quién recurrir.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SIMULADOR ================= -->
+<section id="simulador" aria-labelledby="t-sim">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="kicker">04 · Simulador de barreras</span>
+      <h2 id="t-sim">Mirá el mismo recurso con otros ojos</h2></div>
+      <button class="listen" type="button" data-noread>🔊 Escuchar sección</button>
+    </div>
+    <p class="lead">Una actividad escolar inventada, en dos versiones. Elegí una versión y una forma de percibirla para ver dónde aparecen las barreras.</p>
+
+    <div class="sim">
+      <div>
+        <div class="ctrl-group">
+          <span id="lbl-version">1. Versión del recurso</span>
+          <div class="seg version" role="group" aria-labelledby="lbl-version">
+            <button type="button" data-v="barreras" aria-pressed="true">Con barreras</button>
+            <button type="button" data-v="accesible" aria-pressed="false">Diseñada con criterios</button>
+          </div>
+        </div>
+        <div class="ctrl-group">
+          <span id="lbl-lente">2. Cómo se percibe</span>
+          <div class="seg lentes" role="group" aria-labelledby="lbl-lente">
+            <button type="button" data-l="tipica" aria-pressed="true">Visión típica</button>
+            <button type="button" data-l="baja" aria-pressed="false">Baja visión</button>
+            <button type="button" data-l="daltonismo" aria-pressed="false">Daltonismo</button>
+            <button type="button" data-l="sinaudio" aria-pressed="false">Sin audio</button>
+            <button type="button" data-l="lector" aria-pressed="false">Lector de pantalla</button>
+          </div>
+        </div>
+
+        <div class="visor" id="visor" data-version="barreras" data-lente="tipica" role="img" aria-labelledby="explica-tit explica-txt">
+          <div class="visor-bar" aria-hidden="true"><span>Vista previa del recurso</span><span class="lente-tag" id="lente-tag">Visión típica</span></div>
+          <div class="material" aria-hidden="true">
+            <!-- Versión con barreras -->
+            <div class="mat barreras">
+              <p class="b-tit">actividad 3</p>
+              <p class="b-txt">Leer el siguiente texto y observar el grafico para luego responder las preguntas que se encuentran mas abajo teniendo en cuenta lo visto en clase sobre energias renovables y no renovables, recordar que hay que justificar todas las respuestas y entregar por el aula virtual antes del viernes en formato PDF unicamente, ademas mirar el video y completar la actividad interactiva arrastrando cada fuente de energia a su categoria correspondiente, la consigna se evalua con nota y se tiene en cuenta la ortografia y la presentacion.</p>
+              <div class="b-row">
+                <div>
+                  <div class="b-chart">
+                    <div style="height:85%; background:#d0342c"></div>
+                    <div style="height:60%; background:#d0342c"></div>
+                    <div style="height:35%; background:#3a9d3a"></div>
+                    <div style="height:20%; background:#3a9d3a"></div>
+                  </div>
+                  <div class="b-legend"><span><i style="background:#d0342c"></i>no renov.</span><span><i style="background:#3a9d3a"></i>renov.</span></div>
+                </div>
+                <div class="video">
+                  <span class="vt">video_energia_final2.mp4</span>
+                  <span class="muted-ico">🔇 sin sonido</span>
+                  <span class="play">▶</span>
+                  <span class="audio">🔊 Se escucha la explicación…</span>
+                </div>
+              </div>
+              <div class="b-drag">Arrastrar con el mouse cada fuente → [Gas] [Solar] [Petróleo] [Eólica]</div>
+              <p style="margin:.6rem 0 0"><a href="#simulador" tabindex="-1">clic aquí</a></p>
+            </div>
+
+            <!-- Versión accesible -->
+            <div class="mat accesible">
+              <h4>Actividad 3: Fuentes de energía</h4>
+              <ol>
+                <li>Mirá el video (tiene subtítulos y transcripción).</li>
+                <li>Observá el gráfico.</li>
+                <li>Clasificá las fuentes: podés arrastrar, tocar o elegir de una lista.</li>
+                <li>Entregá como prefieras: texto, audio o esquema.</li>
+              </ol>
+              <div class="a-row">
+                <div class="a-chart">
+                  <div class="ab"><span>Gas</span><span class="t nr" style="width:85%"></span><b>45%</b></div>
+                  <div class="ab"><span>Petróleo</span><span class="t nr" style="width:60%"></span><b>32%</b></div>
+                  <div class="ab"><span>Eólica</span><span class="t r" style="width:35%"></span><b>15%</b></div>
+                  <div class="ab"><span>Solar</span><span class="t r" style="width:20%"></span><b>8%</b></div>
+                  <div class="leg">Liso = no renovable · Rayado = renovable<br>Datos ficticios para el ejemplo</div>
+                </div>
+                <div class="video">
+                  <span class="vt">Video: Cómo se genera la energía (1:20)</span>
+                  <span class="muted-ico">🔇 sin sonido</span>
+                  <span class="play">▶</span>
+                  <span class="cc">[CC] “El gas y el petróleo se agotan…”</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lo que anuncia un lector de pantalla -->
+          <div class="lector-panel" aria-hidden="true">
+            <div class="lp-h">🗣 Lo que anuncia un lector de pantalla</div>
+            <ol data-for="barreras">
+              <li>“Actividad 3” <span class="bad">(texto común, no es un título)</span></li>
+              <li>“Leer el siguiente texto y observar el gráfico para luego responder…” <span class="bad">(un solo bloque largo, sin pausas)</span></li>
+              <li>“Imagen.” <span class="bad">(sin descripción: el gráfico no existe para quien no ve)</span></li>
+              <li>“Video, video_energia_final2.mp4.”</li>
+              <li>“Arrastrar con el mouse…” <span class="bad">(no se puede hacer con teclado)</span></li>
+              <li>“Enlace: clic aquí.” <span class="bad">(¿a dónde lleva?)</span></li>
+            </ol>
+            <ol data-for="accesible">
+              <li>“Título nivel 2: Actividad 3, Fuentes de energía.” <span class="ok">✓</span></li>
+              <li>“Lista de 4 elementos. 1: Mirá el video…” <span class="ok">✓ pasos claros</span></li>
+              <li>“Gráfico de barras: gas 45%, petróleo 32%, eólica 15%, solar 8%. Gas y petróleo son no renovables.” <span class="ok">✓ información equivalente</span></li>
+              <li>“Video: Cómo se genera la energía, 1 minuto 20. Subtítulos disponibles. Transcripción.” <span class="ok">✓</span></li>
+              <li>“Botones: elegir categoría para Gas…” <span class="ok">✓ funciona con teclado</span></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="explica" aria-live="polite">
+        <span class="estado mal" id="explica-estado">Barrera</span>
+        <h3 id="explica-tit">—</h3>
+        <p id="explica-txt">—</p>
+        <div><strong style="font-size:.95rem">Criterios de la propuesta en juego:</strong>
+          <div class="chips" id="explica-chips"></div>
+        </div>
+      </div>
+    </div>
+    <p class="nota" style="margin-top:1rem">La simulación es aproximada: sirve para reflexionar, no reproduce exactamente la experiencia de cada persona. Recordemos que dos estudiantes con el mismo diagnóstico pueden tener necesidades diferentes.</p>
+  </div>
+</section>
+
+<!-- ================= CHECKLIST ================= -->
+<section id="checklist" aria-labelledby="t-check">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="kicker">05 · Nuestra propuesta</span>
+      <h2 id="t-check">¿Tu recurso es accesible? Revisalo en 13 preguntas</h2></div>
+      <button class="listen" type="button" data-noread>🔊 Escuchar sección</button>
+    </div>
+    <p class="lead">Estos son los criterios que proponemos para seleccionar, diseñar o revisar un recurso digital. No son una lista cerrada: sirven para <strong>anticipar barreras</strong> antes de que aparezcan.</p>
+
+    <div class="check-layout">
+      <form id="form-check" novalidate>
+        <div class="recurso-nombre">
+          <label for="recurso">¿Qué recurso estás revisando? <span class="nota">(opcional)</span></label>
+          <input id="recurso" type="text" placeholder="Ej.: presentación de la unidad 2">
+        </div>
+        <div id="items"></div>
+      </form>
+
+      <aside class="resultado" aria-labelledby="res-tit">
+        <h3 id="res-tit">Resultado</h3>
+        <div id="res-progreso-txt">Respondiste 0 de 13</div>
+        <div class="progreso" aria-hidden="true"><span id="res-barra"></span></div>
+        <div aria-live="polite">
+          <div class="puntaje" id="res-puntaje">—</div>
+          <div class="nivel" id="res-nivel">Respondé las preguntas para ver el diagnóstico.</div>
+        </div>
+        <ul class="revisar" id="res-revisar"></ul>
+        <div class="acciones">
+          <button class="btn pri" type="button" id="copiar">Copiar resultado</button>
+          <button class="btn sec" type="button" id="reiniciar">Empezar de nuevo</button>
+        </div>
+        <div class="copiado" id="copiado" role="status"></div>
+        <textarea id="copia-fallback" aria-label="Resultado para copiar" readonly></textarea>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONCLUSIONES ================= -->
+<section id="conclusiones" aria-labelledby="t-concl">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="kicker">06 · Conclusiones</span>
+      <h2 id="t-concl">La accesibilidad no depende solo de cada docente</h2></div>
+      <button class="listen" type="button" data-noread>🔊 Escuchar sección</button>
+    </div>
+    <p class="lead">Los resultados se pueden leer en tres dimensiones. Que haya tecnología no garantiza que ninguna de ellas esté resuelta.</p>
+    <div class="grid" style="margin-top:1.5rem">
+      <div class="card"><div class="dim-num">1</div><h3>Conocimientos</h3><p>Hace falta una formación que no se quede en lo instrumental: que enseñe a <strong>reconocer barreras</strong>, elegir recursos, diseñar materiales accesibles y usar tecnologías de apoyo.</p></div>
+      <div class="card"><div class="dim-num">2</div><h3>Tiempo</h3><p>Un recurso accesible no se resuelve en el momento: hay que explorar, probar, modificar y revisar. Más de la mitad de las respuestas indica que <strong>no hay tiempo</strong> para eso.</p></div>
+      <div class="card"><div class="dim-num">3</div><h3>Acompañamiento</h3><p>Las dudas de accesibilidad se resuelven en soledad. Se necesitan <strong>referentes y espacios institucionales</strong> de consulta y colaboración.</p></div>
+    </div>
+    <blockquote class="final">
+      <p>“La accesibilidad requiere no solamente saber qué hacer, sino también contar con oportunidades y apoyos para poder hacerlo.”</p>
+    </blockquote>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <h2>Cómo hicimos accesible esta página</h2>
+    <ul class="como">
+      <li><strong>Legibilidad:</strong> letra grande, buen contraste y opción de alto contraste.</li>
+      <li><strong>Organización:</strong> títulos jerárquicos y un menú de secciones.</li>
+      <li><strong>Equivalencias:</strong> cada gráfico muestra sus valores como texto.</li>
+      <li><strong>Multimodalidad:</strong> cada sección se puede escuchar.</li>
+      <li><strong>Interacción:</strong> todo se puede usar con teclado, mouse o pantalla táctil.</li>
+      <li><strong>Carga cognitiva:</strong> una idea por bloque y sin animaciones si se prefiere.</li>
+      <li><strong>Compatibilidad:</strong> se adapta al celular y a lectores de pantalla.</li>
+      <li><strong>Conectividad:</strong> es una sola página liviana, sin videos pesados.</li>
+    </ul>
+    <p style="margin-top:2rem">Universidad Nacional de Lanús · Departamento de Planificación y Políticas Públicas · Asignatura 13930 – Seminario Optativo Tecnologías de Apoyo para la Inclusión (Educación Especial) · 2C 2026.<br>Aravena, Rivero, Rivero y Velarde.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root = document.documentElement;
+
+  /* ---------- Preferencias (se recuerdan si el navegador lo permite) ---------- */
+  var store = {
+    get:function(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } },
+    set:function(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  };
+  var escalas = [0.9, 1, 1.125, 1.25, 1.4, 1.6];
+  var iEsc = parseInt(store.get('a11y-escala') || '1', 10);
+  if (isNaN(iEsc) || iEsc < 0 || iEsc >= escalas.length) iEsc = 1;
+  function aplicarEscala(){ root.style.setProperty('--scale', escalas[iEsc]); store.set('a11y-escala', iEsc); }
+  aplicarEscala();
+  document.getElementById('mas').addEventListener('click', function(){ if (iEsc < escalas.length-1){ iEsc++; aplicarEscala(); } });
+  document.getElementById('menos').addEventListener('click', function(){ if (iEsc > 0){ iEsc--; aplicarEscala(); } });
+
+  function toggle(btnId, attr, onVal, offVal){
+    var b = document.getElementById(btnId);
+    var key = 'a11y-' + attr;
+    function set(on){ root.setAttribute('data-' + attr, on ? onVal : offVal); b.setAttribute('aria-pressed', on ? 'true' : 'false'); store.set(key, on ? '1' : '0'); }
+    set(store.get(key) === '1');
+    b.addEventListener('click', function(){ set(b.getAttribute('aria-pressed') !== 'true'); });
+  }
+  toggle('t-contraste', 'contraste', 'si', 'no');
+  toggle('t-letra', 'letra', 'legible', 'normal');
+  toggle('t-mov', 'movimiento', 'no', 'si');
+
+  /* ---------- Menú: marcar sección actual ---------- */
+  var links = document.querySelectorAll('nav.secciones a');
+  if ('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){
+          links.forEach(function(a){ a.setAttribute('aria-current', a.getAttribute('href') === '#' + en.target.id ? 'true' : 'false'); });
+        }
+      });
+    }, {rootMargin:'-40% 0px -55% 0px'});
+    document.querySelectorAll('main section[id]').forEach(function(s){ obs.observe(s); });
+  }
+
+  /* ---------- Escuchar sección (síntesis de voz) ---------- */
+  var tts = ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window);
+  var hablando = null;
+  function vozEs(){
+    try{
+      var vs = speechSynthesis.getVoices();
+      return vs.find(function(v){ return /^es[-_]AR/i.test(v.lang); }) || vs.find(function(v){ return /^es/i.test(v.lang); }) || null;
+    }catch(e){ return null; }
+  }
+  function textoDe(sec){
+    var c = sec.cloneNode(true);
+    c.querySelectorAll('[data-noread], .visor, script, #items, .resultado, [aria-hidden="true"]').forEach(function(n){ n.remove(); });
+    return c.textContent.replace(/\s+/g, ' ').trim();
+  }
+  function detener(){
+    try{ speechSynthesis.cancel(); }catch(e){}
+    if (hablando){ hablando.setAttribute('aria-pressed','false'); hablando.textContent = '🔊 Escuchar sección'; hablando = null; }
+  }
+  document.querySelectorAll('.listen').forEach(function(btn){
+    if (!tts){ btn.hidden = true; return; }
+    btn.setAttribute('aria-pressed','false');
+    btn.addEventListener('click', function(){
+      var era = hablando === btn;
+      detener();
+      if (era) return;
+      var sec = btn.closest('section');
+      try{
+        var u = new SpeechSynthesisUtterance(textoDe(sec));
+        u.lang = 'es-AR'; u.rate = 1;
+        var v = vozEs(); if (v) u.voice = v;
+        u.onend = u.onerror = function(){ if (hablando === btn) detener(); };
+        hablando = btn; btn.setAttribute('aria-pressed','true'); btn.textContent = '⏹ Detener lectura';
+        speechSynthesis.speak(u);
+      }catch(e){ detener(); }
+    });
+  });
+
+  /* ---------- Simulador ---------- */
+  var visor = document.getElementById('visor');
+  var nombresLente = {tipica:'Visión típica', baja:'Baja visión', daltonismo:'Daltonismo (deuteranopía)', sinaudio:'Sin audio', lector:'Lector de pantalla'};
+  var textos = {
+    barreras:{
+      tipica:{ok:false, t:'Aunque “se vea bien”, ya hay barreras', d:'Letra chica y gris, un solo párrafo largo con todas las indicaciones mezcladas, un enlace que dice “clic aquí” y una actividad que solo se resuelve arrastrando con el mouse. Es justo lo que los docentes señalaron como barrera más frecuente: textos difíciles de leer y demasiada información en pantalla.', c:['Legibilidad','Claridad','Carga cognitiva','Interacción']},
+      baja:{ok:false, t:'El texto desaparece', d:'Con baja visión, la letra chica y de poco contraste se vuelve ilegible. Como el material no tiene títulos ni pasos, tampoco hay de dónde agarrarse para ubicarse.', c:['Legibilidad','Organización']},
+      daltonismo:{ok:false, t:'El gráfico deja de decir algo', d:'Rojo y verde se ven casi iguales. Como la única forma de distinguir renovables de no renovables es el color, y no hay rótulos ni valores, el gráfico pierde toda su información.', c:['Equivalencias de la información','Multimodalidad']},
+      sinaudio:{ok:false, t:'El video queda mudo', d:'Sin audio, porque hay una persona sorda, un aula ruidosa o no hay auriculares, la explicación del video se pierde por completo: no tiene subtítulos ni transcripción.', c:['Accesibilidad individual','Equivalencias de la información']},
+      lector:{ok:false, t:'Para quien no ve, el gráfico no existe', d:'El lector de pantalla anuncia “imagen”, sin descripción. No hay títulos para navegar, el enlace no dice a dónde lleva y la actividad de arrastrar no se puede hacer con teclado.', c:['Equivalencias de la información','Organización','Compatibilidad tecnológica','Interacción']}
+    },
+    accesible:{
+      tipica:{ok:true, t:'Se entiende de un vistazo', d:'Un título claro, pasos numerados y cortos, un gráfico con rótulos y valores, y la posibilidad de participar y entregar de distintas maneras. Mismo contenido, menos barreras.', c:['Claridad','Organización','Interacción','Respuesta']},
+      baja:{ok:true, t:'Sigue siendo legible', d:'Con el mismo desenfoque, la letra grande y el buen contraste permiten seguir leyendo. Los títulos y la numeración ayudan a ubicarse aunque cueste ver los detalles.', c:['Legibilidad','Organización']},
+      daltonismo:{ok:true, t:'El color no es la única pista', d:'Las barras tienen nombre, valor y textura (liso o rayado). Aunque los colores se confundan, la información llega igual.', c:['Equivalencias de la información','Multimodalidad']},
+      sinaudio:{ok:true, t:'Los subtítulos hacen el trabajo', d:'Sin sonido, los subtítulos y la transcripción ofrecen la misma información que la narración.', c:['Accesibilidad individual','Equivalencias de la información']},
+      lector:{ok:true, t:'Todo tiene nombre', d:'El lector anuncia un título, una lista de pasos y una descripción del gráfico con sus datos. La actividad funciona con teclado y el video avisa que tiene subtítulos.', c:['Equivalencias de la información','Organización','Compatibilidad tecnológica']}
+    }
+  };
+  function renderSim(){
+    var v = visor.getAttribute('data-version'), l = visor.getAttribute('data-lente');
+    var x = textos[v][l];
+    document.getElementById('lente-tag').textContent = nombresLente[l];
+    var est = document.getElementById('explica-estado');
+    est.className = 'estado ' + (x.ok ? 'bien' : 'mal');
+    est.textContent = x.ok ? '✓ Barrera reducida' : '⚠ Barrera';
+    document.getElementById('explica-tit').textContent = x.t;
+    document.getElementById('explica-txt').textContent = x.d;
+    document.getElementById('explica-chips').innerHTML = x.c.map(function(c){ return '<span class="chip">' + c + '</span>'; }).join('');
+  }
+  function seg(sel, attr, dataKey){
+    var btns = document.querySelectorAll(sel + ' button');
+    btns.forEach(function(b){
+      b.addEventListener('click', function(){
+        btns.forEach(function(o){ o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+        visor.setAttribute(attr, b.getAttribute(dataKey));
+        renderSim();
+      });
+    });
+  }
+  seg('.seg.version', 'data-version', 'data-v');
+  seg('.seg.lentes', 'data-lente', 'data-l');
+  renderSim();
+
+  /* ---------- Checklist ---------- */
+  var criterios = [
+    ['Legibilidad','¿El tamaño, contraste y tipo de letra permiten leer el contenido con facilidad?','Usá letra grande (24 pt o más en presentaciones), tipografías sin adornos y alto contraste entre texto y fondo.'],
+    ['Claridad','¿Las instrucciones utilizan un lenguaje claro, directo y comprensible?','Escribí oraciones cortas, una indicación por paso y verbos directos (“mirá”, “elegí”, “escribí”).'],
+    ['Organización','¿La información está organizada mediante títulos, secciones y una estructura reconocible?','Usá los estilos de título del programa (Título 1, Título 2), no solo negrita: así el lector de pantalla puede navegar.'],
+    ['Multimodalidad','¿Se ofrecen diferentes formas de representar la información cuando resulta pedagógicamente pertinente?','Sumá imagen, audio o esquema cuando ayuden al objetivo. No se trata de acumular formatos.'],
+    ['Equivalencias de la información','¿Las imágenes, gráficos o recursos audiovisuales cuentan con una alternativa o información equivalente cuando es necesario?','Agregá texto alternativo a las imágenes y poné rótulos y valores en los gráficos (o una tabla con los datos).'],
+    ['Accesibilidad individual','¿Los videos cuentan con subtítulos, transcripción u otros apoyos cuando corresponde?','Activá y revisá los subtítulos automáticos, y ofrecé una transcripción breve.'],
+    ['Interacción','¿La actividad permite diferentes maneras de participar, sin depender de una única forma de interacción?','Evitá lo que solo se hace arrastrando con el mouse: que funcione con teclado, tocando o eligiendo de una lista.'],
+    ['Respuesta','¿Los estudiantes cuentan con diferentes posibilidades para expresar o demostrar lo aprendido?','Aceptá distintas entregas: texto, audio, video, dibujo o esquema.'],
+    ['Carga cognitiva','¿La cantidad de información presentada al mismo tiempo es adecuada y no genera sobrecarga?','Una idea por pantalla o diapositiva. Dividí las consignas largas en partes y dejá espacio en blanco.'],
+    ['Compatibilidad tecnológica','¿El recurso puede utilizarse considerando los dispositivos y tecnologías de apoyo disponibles?','Probalo en el celular, con zoom al 200% y con un lector de pantalla (TalkBack, VoiceOver o NVDA).'],
+    ['Conectividad','¿Puede utilizarse considerando las condiciones reales de conectividad y disponibilidad de recursos?','Ofrecé una versión liviana o descargable, y evitá depender de videos pesados o de conexión permanente.'],
+    ['Revisión','¿El recurso fue probado y revisado antes de ser utilizado con los estudiantes?','Usá el comprobador de accesibilidad de Word o PowerPoint y pedile a un colega que lo pruebe.'],
+    ['Pertinencia pedagógica','¿La herramienta seleccionada responde realmente al objetivo de aprendizaje y al contenido que se pretende enseñar?','Preguntate qué barrera resuelve o qué aprendizaje habilita esta herramienta, y si hay otra más simple.']
+  ];
+  var cont = document.getElementById('items');
+  cont.innerHTML = criterios.map(function(c, i){
+    var n = 'c' + i;
+    return '<fieldset class="item"><legend><span class="dim">' + (i+1) + '. ' + c[0] + '</span><span class="q">' + c[1] + '</span></legend>' +
+      '<div class="opts">' +
+      '<label><input type="radio" name="' + n + '" value="2"><span>Sí</span></label>' +
+      '<label><input type="radio" name="' + n + '" value="1"><span>En parte</span></label>' +
+      '<label><input type="radio" name="' + n + '" value="0"><span>No</span></label>' +
+      '</div></fieldset>';
+  }).join('');
+
+  var form = document.getElementById('form-check');
+  function leer(){
+    return criterios.map(function(c, i){
+      var r = form.querySelector('input[name="c' + i + '"]:checked');
+      return r ? parseInt(r.value, 10) : null;
+    });
+  }
+  function renderCheck(){
+    var vals = leer();
+    var resp = vals.filter(function(v){ return v !== null; });
+    var total = criterios.length;
+    document.getElementById('res-progreso-txt').textContent = 'Respondiste ' + resp.length + ' de ' + total;
+    document.getElementById('res-barra').style.width = (resp.length / total * 100) + '%';
+    var p = document.getElementById('res-puntaje'), nv = document.getElementById('res-nivel'), ul = document.getElementById('res-revisar');
+    if (!resp.length){ p.textContent = '—'; nv.textContent = 'Respondé las preguntas para ver el diagnóstico.'; ul.innerHTML = ''; return; }
+    var pts = resp.reduce(function(a, b){ return a + b; }, 0);
+    var pct = Math.round(pts / (resp.length * 2) * 100);
+    p.textContent = pct + '%';
+    var nivel = pct >= 80 ? 'Bien encaminado: revisá los detalles que quedan.' : pct >= 50 ? 'Tiene barreras para revisar.' : 'Conviene rediseñarlo pensando en la accesibilidad.';
+    nv.textContent = (resp.length < total ? 'Parcial: ' : '') + nivel;
+    var items = [];
+    vals.forEach(function(v, i){ if (v === 0 || v === 1) items.push({i:i, v:v}); });
+    items.sort(function(a, b){ return a.v - b.v; });
+    ul.innerHTML = items.length ? items.map(function(it){
+      var c = criterios[it.i];
+      return '<li class="' + (it.v === 1 ? 'parcial' : '') + '"><b>' + c[0] + (it.v === 1 ? ' (en parte)' : '') + '</b>' + c[2] + '</li>';
+    }).join('') : (resp.length === total ? '<li style="border-color:var(--accent)"><b>¡Sin pendientes!</b>Igual conviene probarlo con estudiantes reales.</li>' : '');
+  }
+  form.addEventListener('change', renderCheck);
+  form.addEventListener('submit', function(e){ e.preventDefault(); });
+
+  document.getElementById('reiniciar').addEventListener('click', function(){
+    form.reset(); renderCheck();
+    document.getElementById('copiado').textContent = '';
+    document.getElementById('copia-fallback').style.display = 'none';
+  });
+
+  document.getElementById('copiar').addEventListener('click', function(){
+    var vals = leer();
+    var nombre = document.getElementById('recurso').value.trim();
+    var etiquetas = {2:'Sí', 1:'En parte', 0:'No'};
+    var lineas = ['Checklist de accesibilidad' + (nombre ? ' — ' + nombre : ''), 'Resultado: ' + document.getElementById('res-puntaje').textContent + ' · ' + document.getElementById('res-nivel').textContent, ''];
+    criterios.forEach(function(c, i){ lineas.push((i+1) + '. ' + c[0] + ': ' + (vals[i] === null ? 'sin responder' : etiquetas[vals[i]])); });
+    var pend = criterios.filter(function(c, i){ return vals[i] === 0 || vals[i] === 1; });
+    if (pend.length){ lineas.push('', 'Para revisar:'); pend.forEach(function(c){ lineas.push('• ' + c[0] + ': ' + c[2]); }); }
+    var txt = lineas.join('\n');
+    var msg = document.getElementById('copiado'), ta = document.getElementById('copia-fallback');
+    function fallback(){ ta.value = txt; ta.style.display = 'block'; ta.focus(); ta.select(); msg.textContent = 'Seleccioná el texto y copialo con Ctrl+C.'; }
+    try{
+      navigator.clipboard.writeText(txt).then(function(){ msg.textContent = '✓ Copiado al portapapeles'; ta.style.display = 'none'; }, fallback);
+    }catch(e){ fallback(); }
+  });
+
+  renderCheck();
+})();
+</script>
+</body>
+</html>
